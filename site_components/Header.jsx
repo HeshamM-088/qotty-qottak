@@ -62,7 +62,10 @@ const Header = () => {
           ) : (
             <>
               <Link href="/login" className="hidden sm:block">
-                <Button variant="outline" className="gap-2">
+                <Button
+                  variant="outline"
+                  className="gap-2 cursor-pointer dark:bg-accent-foreground font-semibold hover:text-black"
+                >
                   <LogIn className="h-4 w-4" />
                   دخول
                 </Button>
