@@ -33,6 +33,7 @@ export const metadata = {
     locale: "ar_EG",
     type: "website",
   },
+
   generator: "Hisham Khalil",
   author: "Hisham Khalil",
 };
