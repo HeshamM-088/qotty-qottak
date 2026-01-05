@@ -97,16 +97,10 @@ const CatsGrid = ({ cats }) => {
                   </span>
                   <span>{cat.age}</span>
                 </div>
-                <Link
-                  href=""
-                  //   {`/cats/${cat.id}`}
-                  className="cursor-not-allowed"
-                  disabled={true}
-                >
+                <Link href={`/cats/${cat.id}`}>
                   <Button
                     variant="outline"
-                    disabled
-                    className="w-full bg-transparent cursor-not-allowed"
+                    className="w-full dark:text-accent-foreground bg-transparent cursor-pointer"
                   >
                     عرض التفاصيل
                   </Button>

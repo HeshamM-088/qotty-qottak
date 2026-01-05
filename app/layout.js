@@ -17,6 +17,8 @@ const tajawal = Tajawal({
 });
 
 export const metadata = {
+  metadataBase: new URL("https://qotty-qottak.vercel.app"),
+
   title: "قطتي-قطتك | منصة تبني القطط الأكبر في مصر",
   description:
     "قطتي - قطتك منصة عربية لتبني القطط في مصر. تصفح قطط مطعمة وجاهزة للتبني وتواصل مباشرة مع أصحابها بسهولة وأمان.",
