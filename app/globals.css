@@ -126,3 +126,7 @@
     @apply bg-background text-foreground font-sans;
   }
 }
+
+.cursor-cat {
+  cursor: url("/hero/paw-print.png"), auto;
+}

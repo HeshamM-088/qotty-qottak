@@ -1,4 +1,3 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import { Cairo, Tajawal } from "next/font/google";
 import "./globals.css";
 import Header from "@/site_components/Header";
@@ -43,7 +42,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="ar" suppressHydrationWarning>
-      <body className={`${tajawal.variable} ${cairo.variable} antialiased`}>
+      <body
+        className={`${tajawal.variable} ${cairo.variable} antialiased cursor-cat`}
+      >
         <ThemeProvider defaultTheme="light" storageKey="cat-adoption-theme">
           <Header />
           {children}

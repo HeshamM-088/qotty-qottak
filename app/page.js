@@ -34,37 +34,34 @@ export default function Home() {
   return (
     <main className="flex-1">
       {/* Hero Section */}
-      <section className="relative w-full py-12 md:py-20 lg:py-20 overflow-hidden bg-linear-to-b from-primary/10 via-background to-background">
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="flex flex-col items-center text-center space-y-8">
-            <div className="space-y-4 max-w-3xl">
-              <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-balance">
-                قطتي–قطتك | منصة تبني القطط في مصر
-                <span className="text-primary block my-8">
-                  كل قطة تستحق منزلاً دافئاً وحياة سعيدة
-                </span>
-              </h1>
-              <p className="text-xl text-muted-foreground text-pretty max-w-2xl mx-auto">
-                قطتي–قطتك هو موقع عربي متخصص في تبني القطط داخل مصر، يهدف إلى
-                تسهيل عملية التبني بطريقة إنسانية وآمنة، من خلال عرض قطط مطعمة
-                وجاهزة للتبني والتواصل المباشر بين أصحاب القطط والمتبنين.
-              </p>
-            </div>
-            <div className="flex flex-wrap px-[2em] gap-4 justify-center">
+      <section className="relative w-full py-16">
+        <div className="container mx-auto px-4 flex flex-col-reverse lg:flex-row items-center lg:items-start gap-12">
+          {/* النصوص */}
+          <div className="lg:w-1/2 text-right space-y-6 xl:space-y-16">
+            <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
+              قطتي–قطتك | منصة تبني القطط في مصر
+            </h1>
+            <span className="block text-primary text-2xl md:text-3xl font-semibold">
+              كل قطة تستحق منزلاً دافئاً وحياة سعيدة
+            </span>
+            <p className="text-muted-foreground text-lg md:text-xl">
+              قطتي–قطتك هو موقع عربي متخصص في تبني القطط داخل مصر، يهدف إلى
+              تسهيل عملية التبني بطريقة إنسانية وآمنة، من خلال عرض قطط مطعمة
+              وجاهزة للتبني والتواصل المباشر بين أصحاب القطط والمتبنين.
+            </p>
+
+            <div className="flex flex-wrap gap-4 justify-start">
               <Link href="/cats">
-                <Button
-                  size="lg"
-                  className="h-12 px-8 text-lg gap-2 cursor-pointer"
-                >
+                <Button size="lg" className="h-12 px-8 gap-2">
                   <Search className="h-5 w-5" />
-                  تصفح القطط المتاحه
+                  تصفح القطط المتاحة
                 </Button>
               </Link>
               <Link href="/add-cat">
                 <Button
                   size="lg"
                   variant="outline"
-                  className="h-12 px-8 text-lg gap-2 bg-transparent cursor-pointer"
+                  className="h-12 px-8 gap-2 bg-transparent"
                 >
                   <PlusCircle className="h-5 w-5" />
                   اعرض قطة للتبني
@@ -72,11 +69,23 @@ export default function Home() {
               </Link>
             </div>
           </div>
-        </div>
 
-        {/* Decorative background elements */}
-        <div className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/2 w-64 h-64 bg-primary/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-0 translate-x-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
+          {/* الصورة */}
+          <div className="lg:w-1/2 relative w-full h-96 lg:h-125 rounded-3xl overflow-hidden shadow-2xl shadow-border ">
+            <Image
+              src="/hero/1 (3).jpg"
+              alt="ست حاضنة قطط مبسوطة"
+              fill
+              sizes="(max-width: 768px) 100vw, 
+           (max-width: 1200px) 50vw, 
+           33vw"
+              priority={true}
+              className="object-cover rounded-3xl hover:p-64"
+            />
+            {/* Overlay شفاف إذا حبيت النص يظهر أفضل */}
+            <div className="absolute inset-0 bg-black/20 rounded-3xl"></div>
+          </div>
+        </div>
       </section>
 
       {/* Impact Section */}
@@ -181,11 +190,16 @@ export default function Home() {
       </section>
 
       {/* How it works */}
-      <section className="py-20 bg-muted/50 overflow-hidden relative">
-        <div className="container mx-auto px-4 relative z-10">
+      <section
+        className="py-20 bg-muted/50 overflow-hidden relative bg-fixed bg-center bg-cover"
+        style={{
+          backgroundImage: `linear-gradient(to bottom, rgba(54, 101, 108, 0.6), rgba(54, 101, 108, 0.6)), url('/hero/2.jpg')`,
+        }}
+      >
+        <div className="container mx-auto px-4 relative z-10 text-white">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl font-bold mb-4">كيف تعمل المنصة؟</h2>
-            <p className="text-muted-foreground">
+            <h2 className="text-3xl font-bold mb-4 ">كيف تعمل المنصة؟</h2>
+            <p className="">
               ثلاث خطوات بسيطة لبدء رحلة التبني أو إنقاذ حياة قطة
             </p>
           </div>
@@ -199,7 +213,7 @@ export default function Home() {
                 1
               </div>
               <h3 className="text-xl font-bold">ابحث وتصفح</h3>
-              <p className="text-muted-foreground text-pretty">
+              <p className=" text-pretty">
                 تصفح القطط المعروضة للتبني حسب المدينة والحالة الصحية
               </p>
             </div>
@@ -208,7 +222,7 @@ export default function Home() {
                 2
               </div>
               <h3 className="text-xl font-bold">أختار مباشرة</h3>
-              <p className="text-muted-foreground text-pretty">
+              <p className=" text-pretty">
                 اختر القطة المناسبة لك واطلع على تفاصيلها وصورها
               </p>
             </div>
@@ -217,7 +231,7 @@ export default function Home() {
                 3
               </div>
               <h3 className="text-xl font-bold">أتمم التبني</h3>
-              <p className="text-muted-foreground text-pretty">
+              <p className=" text-pretty">
                 تواصل مباشرة مع صاحب القطة عبر واتساب لإتمام التبني
               </p>
             </div>
@@ -283,7 +297,12 @@ export default function Home() {
       {/* App Promo / Newsletter */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <div className="bg-primary rounded-4xl p-8 md:p-16 text-primary-foreground relative overflow-hidden">
+          <div
+            className="bg-primary rounded-4xl p-8 md:p-16 text-primary-foreground relative overflow-hidden bg-fixed bg-center bg-cover"
+            style={{
+              backgroundImage: `linear-gradient(to bottom, rgba(54, 101, 108, 0.6), rgba(54, 101, 108, 0.6)), url('/hero/contact.jpg')`,
+            }}
+          >
             <div className="max-w-2xl relative z-10 space-y-6">
               <h2 className="text-3xl md:text-5xl font-bold">
                 لا تفوت فرصة العثور على صديقك
