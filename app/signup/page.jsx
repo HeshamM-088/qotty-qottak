@@ -12,6 +12,7 @@ import {
 import Link from "next/link";
 import { User, Mail, Lock, UserPlus, CheckCircle2, Camera } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
 
 const SignUp = () => {
   const [image, setImage] = useState(null);
@@ -31,9 +32,17 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-background transition-colors duration-300">
-      <main className="flex-1 flex items-center justify-center bg-muted/30 py-12 px-4 relative overflow-hidden">
-        <Card className="w-full max-w-md border-none shadow-2xl relative z-10 backdrop-blur-sm bg-card/80">
+    <div className="flex min-h-screen flex-col bg-background transition-colors  duration-300">
+      <main className="flex-1 flex items-center justify-center bg-muted/30  py-12 px-4 relative overflow-hidden">
+        <Card className="w-full rounded-4xl max-w-md border-none shadow-2xl relative z-10  backdrop-blur-sm bg-card/80">
+          <Image
+            fill
+            priority
+            sizes="220px"
+            src="/login/pexels-photo4passion-1828875.jpg"
+            alt="Cute cat looking at the form"
+            className="opacity-15 drop-shadow-2xl pointer-events-none select-none rounded-4xl"
+          />
           <CardHeader className="text-center space-y-1">
             <div className="mx-auto w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center mb-2">
               <UserPlus className="w-6 h-6 text-secondary" />
@@ -73,7 +82,7 @@ const SignUp = () => {
                   <button
                     type="button"
                     onClick={handleRemoveImage}
-                    className="absolute cursor-pointer -top-2 -left-2 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-xs hover:bg-red-600 transition"
+                    className="absolute cursor-pointer z-50 -top-2 -left-2 w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center text-xs hover:bg-red-600 transition"
                   >
                     ✕
                   </button>
@@ -139,7 +148,7 @@ const SignUp = () => {
               <span>أوافق على شروط الاستخدام وسياسة الخصوصية</span>
             </div>
 
-            <Button className="w-full py-6 text-lg font-bold bg-secondary hover:bg-secondary/90 shadow-lg shadow-secondary/20">
+            <Button className="w-full cursor-pointer py-6 text-lg font-bold bg-secondary hover:bg-secondary/90 shadow-lg shadow-secondary/20">
               إنشاء الحساب
             </Button>
           </CardContent>

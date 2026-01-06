@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 import { Lock, Mail } from "lucide-react";
+import Image from "next/image";
 
 const Login = () => {
   return (
@@ -20,7 +21,15 @@ const Login = () => {
         <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full -mr-32 -mt-32 blur-3xl" />
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/5 rounded-full -ml-32 -mb-32 blur-3xl" />
 
-        <Card className="w-full max-w-md border-none shadow-2xl relative z-10 backdrop-blur-sm bg-card/80">
+        <Card className="w-full rounded-4xl max-w-md border-none shadow-2xl relative z-10 backdrop-blur-sm bg-card/80">
+          <Image
+            fill
+            src="/login/look2.png"
+            priority
+            sizes="220px"
+            alt="Cute cat looking at the form"
+            className="opacity-10 rounded-4xl drop-shadow-2xl pointer-events-none select-none"
+          />
           <CardHeader className="text-center space-y-1">
             <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-2">
               <Lock className="w-6 h-6 text-primary" />
