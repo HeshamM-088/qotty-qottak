@@ -73,7 +73,7 @@ export default function Home() {
           {/* الصورة */}
           <div className="lg:w-1/2 relative w-full h-96 lg:h-125 rounded-3xl overflow-hidden shadow-2xl shadow-border ">
             <Image
-              src="/hero/1 (3).jpg"
+              src="/hero/3.jpg"
               alt="ست حاضنة قطط مبسوطة"
               fill
               sizes="(max-width: 768px) 100vw, 
