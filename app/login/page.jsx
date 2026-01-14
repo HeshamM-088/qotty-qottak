@@ -1,108 +1,179 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle,
   CardFooter,
 } from "@/components/ui/card";
-import Link from "next/link";
-import { Lock, Mail } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { FcGoogle } from "react-icons/fc";
+import { Shield } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
 
-const Login = () => {
-  return (
-    <div className="flex min-h-screen flex-col bg-background transition-colors duration-300">
-      <main className="flex-1 flex items-center justify-center bg-muted/30 py-12 px-4 relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full -mr-32 -mt-32 blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/5 rounded-full -ml-32 -mb-32 blur-3xl" />
-
-        <Card className="w-full rounded-4xl max-w-md border-none shadow-2xl relative z-10 backdrop-blur-sm bg-card/80">
-          <Image
-            fill
-            src="/login/look2.png"
-            priority
-            sizes="220px"
-            alt="Cute cat looking at the form"
-            className="opacity-10 rounded-4xl drop-shadow-2xl pointer-events-none select-none"
-          />
-          <CardHeader className="text-center space-y-1">
-            <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-2">
-              <Lock className="w-6 h-6 text-primary" />
-            </div>
-            <CardTitle className="font-serif text-3xl font-bold tracking-tight">
-              تسجيل الدخول
-            </CardTitle>
-            <p className="text-muted-foreground">
-              أهلاً بك مجدداً في مجتمع قطتي-قطتك
-            </p>
-          </CardHeader>
-          <CardContent className="space-y-4 pt-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">البريد الإلكتروني</Label>
-              <div className="relative">
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="example@mail.com"
-                  className="pr-10 text-right bg-background/50 border-muted-foreground/20 focus:border-primary transition-all"
-                />
-                <Mail className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password">كلمة المرور</Label>
-                <Link
-                  href="#"
-                  className="text-xs text-primary hover:text-primary/80 transition-colors"
-                >
-                  نسيت كلمة المرور؟
-                </Link>
-              </div>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="******"
-                  className="pr-10 text-right bg-background/50 border-muted-foreground/20 focus:border-primary transition-all"
-                />
-                <Lock className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              </div>
-            </div>
-            <Button className="w-full cursor-pointer py-6 text-lg font-bold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all hover:-translate-y-0.5 active:translate-y-0">
-              دخول
-            </Button>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-4 pb-8">
-            <div className="relative w-full">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-muted" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card px-2 text-muted-foreground">
-                  أو تابع عبر
-                </span>
-              </div>
-            </div>
-            <div className="text-center text-sm">
-              <span className="text-muted-foreground">ليس لديك حساب؟ </span>
-              <Link
-                href="/signup"
-                className="text-primary font-bold hover:underline decoration-2 underline-offset-4"
-              >
-                إنشاء حساب جديد
-              </Link>
-            </div>
-          </CardFooter>
-        </Card>
-      </main>
-    </div>
-  );
+/* Animations */
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
 };
 
-export default Login;
+const scaleFade = {
+  hidden: { opacity: 0, scale: 0.96 },
+  visible: { opacity: 1, scale: 1 },
+  exit: { opacity: 0, scale: 0.95 },
+};
+
+export default function Login() {
+  const [loading, setLoading] = useState(false);
+
+  const handleGoogleLogin = () => {
+    setLoading(true);
+
+    setTimeout(() => {
+      window.location.href = "http://localhost:5000/api/v1/auth/google";
+    }, 900);
+  };
+
+  return (
+    <div className="relative min-h-screen flex items-center justify-center bg-linear-to-br from-background via-muted/40 to-background px-4 overflow-hidden">
+      <div className="absolute -top-32 -right-32 w-96 h-96 bg-primary/20 rounded-full blur-[120px]" />
+      <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-secondary/20 rounded-full blur-[120px]" />
+
+      <AnimatePresence>
+        {!loading && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8 }}
+            className="absolute top-16 text-center"
+          >
+            <motion.h1
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="text-2xl font-extrabold tracking-wide"
+            >
+              قطتي-قطتك
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, y: 10 }}
+              transition={{ delay: 0.5 }}
+              className="text-xs text-muted-foreground"
+            >
+              لأنهم يستحقون حياة أفضل
+            </motion.p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence mode="wait">
+        {!loading ? (
+          <motion.div
+            key="card"
+            variants={scaleFade}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            transition={{ duration: 0.5 }}
+            className="w-full max-w-md z-10"
+          >
+            <Card className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-card/80 backdrop-blur-xl shadow-[0_40px_120px_rgba(0,0,0,0.25)]">
+              <Image
+                src="/login/look2.png"
+                alt="Cat illustration"
+                fill
+                sizes="(max-width: 768px) 100vw, 420px"
+                priority
+                className="object-cover opacity-[0.07] pointer-events-none"
+              />
+
+              <CardHeader className="pt-16 text-center space-y-4">
+                <motion.h2
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate="visible"
+                  className="text-3xl font-extrabold"
+                >
+                  تجربة راقية تبدأ من هنا
+                </motion.h2>
+
+                <motion.p
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate="visible"
+                  transition={{ delay: 0.1 }}
+                  className="text-sm text-muted-foreground max-w-xs mx-auto"
+                >
+                  دخول آمن وسريع باستخدام حساب Google
+                </motion.p>
+              </CardHeader>
+
+              <CardContent className="pt-10 px-8 space-y-8">
+                <motion.div whileHover={{ y: -4 }} whileTap={{ scale: 0.97 }}>
+                  <Button
+                    onClick={handleGoogleLogin}
+                    className="w-full h-14 rounded-2xl text-lg font-semibold
+                    bg-linear-to-r from-primary to-primary/90
+                    shadow-[0_20px_60px_rgba(0,0,0,0.35)] cursor-pointer"
+                  >
+                    <FcGoogle className="w-6 h-6 mr-2 bg-white rounded-full p-0.5" />
+                    تسجيل دخول باستخدام Google
+                  </Button>
+                </motion.div>
+
+                <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+                  <Shield className="w-4 h-4 text-primary" />
+                  لن نقوم بنشر أي شيء بدون إذنك
+                </div>
+              </CardContent>
+
+              <CardFooter className="pb-10 text-center text-xs text-muted-foreground">
+                <p>
+                  بالمتابعة أنت توافق على{" "}
+                  <Link href="#" className="underline">
+                    الشروط
+                  </Link>{" "}
+                  و{" "}
+                  <Link href="#" className="underline">
+                    سياسة الخصوصية
+                  </Link>
+                </p>
+              </CardFooter>
+            </Card>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="loader"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="z-10 flex flex-col items-center gap-6"
+          >
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{
+                repeat: Infinity,
+                duration: 1,
+                ease: "linear",
+              }}
+              className="w-14 h-14 border-4 border-primary/30 border-t-primary rounded-full"
+            />
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="text-sm text-muted-foreground"
+            >
+              جاري تأمين تسجيل الدخول…
+            </motion.p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}

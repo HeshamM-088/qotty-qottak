@@ -127,6 +127,10 @@
   }
 }
 
-.cursor-cat {
+/* .cursor-cat {
   cursor: url("/hero/paw-print.png"), auto;
+} */
+
+:focus-visible {
+  outline: -webkit-focus-ring-color auto 0px;
 }
