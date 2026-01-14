@@ -31,7 +31,6 @@ export default function Login() {
 
   const handleGoogleLogin = () => {
     setLoading(true);
-
     setTimeout(() => {
       window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google`;
     }, 900);
