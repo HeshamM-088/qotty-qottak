@@ -20,7 +20,7 @@ const DashboardLayout = async ({ children }) => {
   }
 
   if (user.role !== "admin") {
-    redirect("/login");
+    redirect("/cats");
   }
 
   return (
