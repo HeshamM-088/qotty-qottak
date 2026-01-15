@@ -8,6 +8,7 @@ export const fetchUser = createAsyncThunk(
 
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
+        method: "GET",
         credentials: "include",
       });
       if (!res.ok) throw new Error("Not authenticated");
@@ -42,6 +43,8 @@ const userSlice = createSlice({
         state.user = action.payload.data;
       })
       .addCase(fetchUser.rejected, (state, action) => {
+        console.log(action);
+
         state.status = "failed";
         state.user = null;
       });

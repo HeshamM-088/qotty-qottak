@@ -15,7 +15,7 @@ const GoogleSuccess = () => {
       .then(() => {
         router.replace("/");
       })
-      .catch(() => {
+      .catch((e) => {
         router.replace("/login");
       });
   }, [router]);
