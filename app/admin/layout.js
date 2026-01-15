@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import Sidebar from "./_components/SideBar";
 import { redirect } from "next/navigation";
 
-const SECRET_KEY = process.env.SECRET_KEY;
+const SECRET_KEY = process.env.NEXT_PUBLIC_SECRET_KEY;
 
 const DashboardLayout = async ({ children }) => {
   const cookieStore = await cookies();
@@ -20,7 +20,7 @@ const DashboardLayout = async ({ children }) => {
   }
 
   if (user.role !== "admin") {
-    redirect("/cats");
+    redirect("/login");
   }
 
   return (
