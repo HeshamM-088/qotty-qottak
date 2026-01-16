@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import MobileSidebar from "./_components/side_bar/MobileSidebar";
 
 const DashboardLayout = async ({ children }) => {
-  const token = (await cookies()).get("token").value;
+  const token = (await cookies()).get("token")?.value;
 
   let user = null;
   if (!token) redirect("/login");
