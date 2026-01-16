@@ -43,8 +43,6 @@ const userSlice = createSlice({
         state.user = action.payload.data;
       })
       .addCase(fetchUser.rejected, (state, action) => {
-        console.log(action);
-
         state.status = "failed";
         state.user = null;
       });

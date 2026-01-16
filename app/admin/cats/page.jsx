@@ -1,10 +1,9 @@
-import ChartsSection from "./_components/charts_section/ChartsSection";
-import StatsCard from "./_components/stats_cards/StatsCard";
+import CatsTable from "../_components/cats_table/CatsTable";
 
 export const metadata = {
-  title: "لوحة تحكم الأدمن | منصة قطتى-قطتك",
+  title: "لوحة إداره القطط | منصة قطتى-قطتك",
   description:
-    "لوحة تحكم إدارية لإدارة القطط وطلبات التبنّي والمستخدمين داخل منصة قطتى-قطتك.",
+    "لوحة إداره القطط لإدارة القطط وطلبات التبنّي والمستخدمين داخل منصة قطتى-قطتك.",
 
   robots: {
     index: false,
@@ -23,9 +22,9 @@ export const metadata = {
   metadataBase: new URL("https://qotty-qottak.vercel.app"),
 
   openGraph: {
-    title: "لوحة تحكم الأدمن | منصة قطتى-قطتك",
+    title: "لوحة إداره القطط | منصة قطتى-قطتك",
     description: "واجهة إدارية آمنة لإدارة المحتوى والمستخدمين وطلبات التبنّي.",
-    url: "https://qotty-qottak.vercel.app/admin",
+    url: "https://qotty-qottak.vercel.app/admin/cats",
     siteName: "منصة قطتى-قطتك",
     type: "website",
     locale: "ar_EG",
@@ -33,7 +32,7 @@ export const metadata = {
 
   twitter: {
     card: "summary",
-    title: "لوحة تحكم الأدمن | منصة قطتى-قطتك",
+    title: "لوحة إداره القطط | منصة قطتى-قطتك",
     description: "لوحة تحكم خاصة لإدارة منصة قطتى-قطتك.",
   },
 
@@ -45,22 +44,21 @@ export const metadata = {
   },
 };
 
-const DashboardPage = () => {
+const CatsPage = () => {
   return (
     <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-foreground">
-          نظرة عامة على الداشبورد
-        </h1>
-        <p className="text-muted-foreground mt-2">
-          مرحبا بك في لوحة التحكم الإدارية لقطتي-قطتك
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-foreground">إدارة القطط</h1>
+          <p className="text-muted-foreground mt-2">
+            إضافة وتعديل وحذف القطط المتاحة للتبني
+          </p>
+        </div>
       </div>
 
-      <StatsCard />
-      <ChartsSection />
+      <CatsTable />
     </div>
   );
 };
 
-export default DashboardPage;
+export default CatsPage;

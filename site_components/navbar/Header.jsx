@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ThemeToggle } from "../ThemeToggle";
 import AuthStatus from "./AuthStatus";
 import MobileSheet from "./MobileView";
+import { PawPrint } from "lucide-react";
 
 const Header = () => {
   const navItems = [
@@ -17,47 +18,19 @@ const Header = () => {
         <div className="flex items-center gap-8">
           {/* site icon */}
           <Link href="/" className="flex items-center gap-2">
-            <svg
-              width="60"
-              height="60"
-              viewBox="0 0 260 260"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="130"
-                cy="160"
-                r="45"
-                className="fill-accent-foreground"
-              />
-              <circle
-                cx="85"
-                cy="105"
-                r="18"
-                className="fill-accent-foreground"
-              />
-              <circle
-                cx="120"
-                cy="85"
-                r="18"
-                className="fill-accent-foreground"
-              />
-              <circle
-                cx="155"
-                cy="85"
-                r="18"
-                className="fill-accent-foreground"
-              />
-              <circle
-                cx="190"
-                cy="105"
-                r="18"
-                className="fill-accent-foreground"
-              />
-
-              <circle cx="130" cy="160" r="20" fill="#fff" />
-              <polygon points="115,150 122,135 130,150" fill="#fff" />
-              <polygon points="130,150 138,135 145,150" fill="#fff" />
-            </svg>
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-10 bg-linear-to-br from-primary to-accent rounded-lg flex items-center justify-center">
+                <PawPrint className="w-6 h-6 text-foreground" />
+              </div>
+              <div>
+                <h1 className="font-bold text-lg text-sidebar-foreground">
+                  قطتي-قطتك
+                </h1>
+                <p className="text-xs text-sidebar-foreground/60">
+                  Qotty Qottak
+                </p>
+              </div>
+            </div>
           </Link>
 
           <nav className="hidden md:flex items-center gap-6">

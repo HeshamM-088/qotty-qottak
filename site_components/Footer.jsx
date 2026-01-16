@@ -49,22 +49,22 @@ const Footer = () => {
             <h3 className="mb-4 font-bold">الدعم والمساعدة</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
-                <Link href="/about#contact" className="hover:text-primary">
+                <Link href="/" className="hover:text-primary">
                   تواصل معنا
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="hover:text-primary">
+                <Link href="/" className="hover:text-primary">
                   الأسئلة الشائعة
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="hover:text-primary">
+                <Link href="/" className="hover:text-primary">
                   سياسة الخصوصية
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="hover:text-primary">
+                <Link href="/" className="hover:text-primary">
                   شروط الاستخدام
                 </Link>
               </li>
@@ -75,25 +75,25 @@ const Footer = () => {
             <h3 className="mb-4 font-bold">تابعنا على</h3>
             <div className="flex gap-4">
               <Link
-                href="#"
+                href="/"
                 className="text-muted-foreground hover:text-primary transition-colors"
               >
                 <Facebook className="h-5 w-5" />
               </Link>
               <Link
-                href="#"
+                href="/"
                 className="text-muted-foreground hover:text-primary transition-colors"
               >
                 <Instagram className="h-5 w-5" />
               </Link>
               <Link
-                href="#"
+                href="/"
                 className="text-muted-foreground hover:text-primary transition-colors"
               >
                 <Twitter className="h-5 w-5" />
               </Link>
               <Link
-                href="#"
+                href="/"
                 className="text-muted-foreground hover:text-primary transition-colors"
               >
                 <Mail className="h-5 w-5" />
