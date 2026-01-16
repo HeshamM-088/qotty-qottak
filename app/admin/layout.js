@@ -4,23 +4,20 @@ import Sidebar from "./_components/side_bar/SideBar";
 import { redirect } from "next/navigation";
 import MobileSidebar from "./_components/side_bar/MobileSidebar";
 
-const SECRET_KEY = process.env.NEXT_PUBLIC_SECRET_KEY;
-
 const DashboardLayout = async ({ children }) => {
-  const cookieStore = await cookies();
-
-  const token = cookieStore.get("token")?.value;
+  const token = (await cookies()).get("token").value;
 
   let user = null;
   if (!token) redirect("/login");
 
   try {
-    user = jwt.verify(token, SECRET_KEY);
-  } catch (err) {
-    redirect("/login");
-  }
+    user = jwt.verify(token, process.env.NEXT_PUBLIC_SECRET_KEY);
+    console.log(process.env.NEXT_PUBLIC_SECRET_KEY);
 
-  if (user.role !== "admin") {
+    if (user.role !== "admin") {
+      redirect("/login");
+    }
+  } catch (err) {
     redirect("/login");
   }
 
