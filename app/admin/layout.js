@@ -5,7 +5,7 @@ import MobileSidebar from "./_components/side_bar/MobileSidebar";
 import UnauthorizedPage from "./_components/404/UnauthorizedPage";
 
 const checkAuth = async (cookieHeader) => {
-  const res = await fetch(`http://localhost:5000/api/v1/auth/auth/session`, {
+  const res = await fetch(`${NEXT_PUBLIC_API_URL}/auth/auth/session`, {
     headers: {
       cookie: cookieHeader,
     },
