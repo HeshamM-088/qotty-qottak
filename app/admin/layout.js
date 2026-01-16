@@ -4,7 +4,11 @@ import { redirect } from "next/navigation";
 import MobileSidebar from "./_components/side_bar/MobileSidebar";
 import UnauthorizedPage from "./_components/404/UnauthorizedPage";
 
-const checkAuth = async (cookieHeader) => {
+const checkAuth = async () => {
+  const cookieStore = await cookies();
+  const tokenCookie = cookieStore.get("token");
+  const cookieHeader = tokenCookie ? `token=${tokenCookie.value}` : "";
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/auth/auth/session`,
     {
@@ -25,10 +29,7 @@ const checkAuth = async (cookieHeader) => {
 };
 
 const DashboardLayout = async ({ children }) => {
-  const cookieStore = await cookies();
-  const cookieHeader = cookieStore.get("token")?.value;
-
-  const { data } = await checkAuth(cookieHeader);
+  const { data } = await checkAuth();
 
   if (!data) {
     return <UnauthorizedPage />;
