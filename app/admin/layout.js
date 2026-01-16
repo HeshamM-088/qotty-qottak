@@ -7,13 +7,13 @@ import UnauthorizedPage from "./_components/404/UnauthorizedPage";
 const checkAuth = async () => {
   const cookieStore = await cookies();
   const tokenCookie = cookieStore.get("token");
-  const cookieHeader = tokenCookie ? `token=${tokenCookie.value}` : "";
-  //
+  const token = tokenCookie ? `${tokenCookie.value}` : "";
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/auth/auth/session`,
     {
       headers: {
-        cookie: cookieHeader,
+        Authorization: `Bearer ${token}`,
       },
       credentials: "include",
       cache: "no-store",
@@ -29,9 +29,9 @@ const checkAuth = async () => {
 };
 
 const DashboardLayout = async ({ children }) => {
-  const { data } = await checkAuth();
+  const { data, status_code } = await checkAuth();
 
-  if (!data) {
+  if (!data || status_code !== 200) {
     return <UnauthorizedPage />;
   }
 
