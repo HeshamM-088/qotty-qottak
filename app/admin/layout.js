@@ -1,24 +1,34 @@
 import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
 import Sidebar from "./_components/side_bar/SideBar";
 import { redirect } from "next/navigation";
 import MobileSidebar from "./_components/side_bar/MobileSidebar";
+import UnauthorizedPage from "./_components/404/UnauthorizedPage";
+
+const checkAuth = async (cookieHeader) => {
+  const res = await fetch(`http://localhost:5000/api/v1/auth/auth/session`, {
+    headers: {
+      cookie: cookieHeader,
+    },
+    credentials: "include",
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    redirect("/login");
+  }
+  const data = await res.json();
+
+  return data;
+};
 
 const DashboardLayout = async ({ children }) => {
-  const token = (await cookies()).get("token")?.value;
+  const cookieStore = await cookies();
+  const cookieHeader = cookieStore.get("token")?.value;
 
-  let user = null;
-  if (!token) redirect("/login");
+  const { data } = await checkAuth(cookieHeader);
 
-  try {
-    user = jwt.verify(token, process.env.NEXT_PUBLIC_SECRET_KEY);
-    console.log(process.env.NEXT_PUBLIC_SECRET_KEY);
-
-    if (user.role !== "admin") {
-      redirect("/login");
-    }
-  } catch (err) {
-    redirect("/login");
+  if (!data) {
+    return <UnauthorizedPage />;
   }
 
   return (
