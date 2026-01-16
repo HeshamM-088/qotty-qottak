@@ -5,20 +5,21 @@ import MobileSidebar from "./_components/side_bar/MobileSidebar";
 import UnauthorizedPage from "./_components/404/UnauthorizedPage";
 
 const checkAuth = async () => {
+  "use server";
   const cookieStore = await cookies();
-  const tokenCookie = cookieStore.get("token");
-  const token = tokenCookie ? `${tokenCookie.value}` : "";
+  const token = cookieStore.get("token")?.value;
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/auth/auth/session`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      credentials: "include",
-      cache: "no-store",
-    }
-  );
+  if (!token) {
+    redirect("/login");
+  }
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/session`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    credentials: "include",
+    cache: "no-store",
+  });
 
   if (!res.ok) {
     redirect("/login");
