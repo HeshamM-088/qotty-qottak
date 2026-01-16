@@ -5,13 +5,16 @@ import MobileSidebar from "./_components/side_bar/MobileSidebar";
 import UnauthorizedPage from "./_components/404/UnauthorizedPage";
 
 const checkAuth = async (cookieHeader) => {
-  const res = await fetch(`${NEXT_PUBLIC_API_URL}/auth/auth/session`, {
-    headers: {
-      cookie: cookieHeader,
-    },
-    credentials: "include",
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/auth/auth/session`,
+    {
+      headers: {
+        cookie: cookieHeader,
+      },
+      credentials: "include",
+      cache: "no-store",
+    }
+  );
 
   if (!res.ok) {
     redirect("/login");
