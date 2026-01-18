@@ -5,4 +5,7 @@ export const store = configureStore({
   reducer: {
     user: userReducer,
   },
+  devTools: {
+    serialize: false,
+  },
 });

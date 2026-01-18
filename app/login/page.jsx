@@ -13,6 +13,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Shield } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
 
 /* Animations */
 const fadeUp = {
@@ -29,11 +30,10 @@ const scaleFade = {
 export default function Login() {
   const [loading, setLoading] = useState(false);
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = async () => {
     setLoading(true);
-    setTimeout(() => {
-      window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google`;
-    }, 900);
+
+    await signIn("google", { callbackUrl: "/" });
   };
 
   return (

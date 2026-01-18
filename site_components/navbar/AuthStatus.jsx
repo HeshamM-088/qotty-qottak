@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Image from "next/image";
 import { fetchUser, logout } from "@/redux/slices/userSlice";
 import { useRouter } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,46 +15,48 @@ import {
 import { LogOut, User, UserStar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
+import { setUser, logout as logoutSlice } from "@/redux/slices/userSlice";
 
 const AuthStatus = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const user = useSelector((state) => state.user.user);
-  const status = useSelector((state) => state.user.status);
+  const { data: session, status } = useSession();
 
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchUser());
+    if (session?.user) {
+      dispatch(
+        setUser({
+          id: session.user.id,
+          name: session.user.name,
+          email: session.user.email,
+          role: session.user.role,
+          image: session.user.image,
+        }),
+      );
+    } else {
+      dispatch(logoutSlice());
     }
-  }, [status, dispatch]);
+  }, [session?.user?.id, session?.user?.role]);
 
   const handleLogout = async () => {
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/logout`,
-        {
-          method: "POST",
-          credentials: "include",
-        }
-      );
-
-      if (!res.ok) throw new Error("حدث خطأ أثناء تسجيل الخروج");
-
-      dispatch(logout());
-      router.push("/");
+      await signOut({ callbackUrl: "/" });
+      dispatch(logoutSlice());
     } catch (error) {
       console.error(error);
-      toast.error("حدث خطأ أثناء تسجيل الخروج، حاول مرة أخرى", {});
+      toast.error("حدث خطأ أثناء تسجيل الخروج، حاول مرة أخرى");
     }
   };
 
   if (status === "loading") return <p>جاري التحميل...</p>;
 
+  const user = session?.user;
+
   return user ? (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Image
-          src={user.avatar || "/placeholder.svg"}
+          src={user.image || "/placeholder.svg"}
           alt={user.name}
           width={40}
           height={40}

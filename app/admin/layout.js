@@ -1,38 +1,13 @@
-import { cookies } from "next/headers";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import Sidebar from "./_components/side_bar/SideBar";
-import { redirect } from "next/navigation";
 import MobileSidebar from "./_components/side_bar/MobileSidebar";
 import UnauthorizedPage from "./_components/404/UnauthorizedPage";
 
-const checkAuth = async () => {
-  "use server";
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
-
-  if (!token) {
-    redirect("/login");
-  }
-
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/session`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    credentials: "include",
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    redirect("/login");
-  }
-  const data = await res.json();
-
-  return data;
-};
-
 const DashboardLayout = async ({ children }) => {
-  const { data, status_code } = await checkAuth();
+  const session = await getServerSession(authOptions);
 
-  if (!data || status_code !== 200) {
+  if (!session || session.user.role !== "admin") {
     return <UnauthorizedPage />;
   }
 

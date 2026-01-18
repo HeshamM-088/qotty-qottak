@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Search, ArrowRight, CheckCircle2, PlusCircle } from "lucide-react";
 import Image from "next/image";
 
-export default function Home() {
+const Home = async () => {
   const featuredCats = [
     {
       id: 1,
@@ -335,4 +335,6 @@ export default function Home() {
       </section>
     </main>
   );
-}
+};
+
+export default Home;

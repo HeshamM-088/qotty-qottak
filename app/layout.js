@@ -1,20 +1,21 @@
 import { Cairo, Tajawal } from "next/font/google";
 import "./globals.css";
 import Header from "@/site_components/navbar/Header";
-import { ThemeProvider } from "@/site_components/ThemeProvider";
 import Footer from "@/site_components/Footer";
-import ReduxProvider from "@/redux/providers";
 import { Toaster } from "react-hot-toast";
+import ClientProviders from "./ClientProviders";
 
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
   variable: "--font-cairo",
+  display: "swap",
 });
 
 const tajawal = Tajawal({
   subsets: ["arabic", "latin"],
   weight: ["400", "500", "700"],
   variable: "--font-tajawal",
+  display: "swap",
 });
 
 export const metadata = {
@@ -45,16 +46,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ar" suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={`${tajawal.variable} ${cairo.variable} antialiased cursor-cat`}
       >
-        <ReduxProvider>
-          <ThemeProvider defaultTheme="light" storageKey="cat-adoption-theme">
-            <Header />
-            {children}
-            <Toaster position="bottom-left" />
-            <Footer />
-          </ThemeProvider>
-        </ReduxProvider>
+        <ClientProviders>
+          <Header />
+          {children}
+          <Toaster position="bottom-left" />
+          <Footer />
+        </ClientProviders>
       </body>
     </html>
   );
