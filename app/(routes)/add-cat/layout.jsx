@@ -1,3 +1,7 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
+import UnauthorizedPage from "../admin/_components/404/UnauthorizedPage";
+
 export const metadata = {
   title: "عرض قطة للتبني | قطتي - قطتك",
   description:
@@ -18,6 +22,19 @@ export const metadata = {
   },
 };
 
-export default function AddCatLayout({ children }) {
+const AddCatLayout = async ({ children }) => {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return (
+      <UnauthorizedPage
+        pageName="صفحه اضافه القطط"
+        loginMessage="تسجيل الدخول"
+      />
+    );
+  }
+
   return children;
-}
+};
+
+export default AddCatLayout;

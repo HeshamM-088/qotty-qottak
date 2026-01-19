@@ -3,7 +3,7 @@ import { ShieldAlert, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const UnauthorizedPage = () => {
+const UnauthorizedPage = ({ pageName, loginMessage }) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <Card className="w-full max-w-md text-center shadow-lg">
@@ -17,8 +17,8 @@ const UnauthorizedPage = () => {
 
         <CardContent className="space-y-6">
           <p className="text-muted-foreground leading-relaxed">
-            عذرًا، ليس لديك الصلاحيات اللازمة للوصول إلى لوحة تحكم الأدمن. إذا
-            كنت تعتقد أن هذا خطأ، يرجى التواصل مع إدارة النظام.
+            عذرًا، ليس لديك الصلاحيات اللازمة للوصول إلى {pageName}. إذا كنت
+            تعتقد أن هذا خطأ، يرجى التواصل مع إدارة النظام.
           </p>
 
           <div className="flex flex-col gap-3">
@@ -30,7 +30,7 @@ const UnauthorizedPage = () => {
             </Button>
 
             <Button asChild variant="secondary" className="w-full">
-              <Link href="/login">تسجيل الدخول بحساب آخر</Link>
+              <Link href="/login">{loginMessage}</Link>
             </Button>
           </div>
         </CardContent>

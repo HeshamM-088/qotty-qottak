@@ -118,7 +118,7 @@ const AboutPage = () => {
                     </div>
                     <div className="space-y-2">
                       <label className="text-sm font-medium">الرسالة</label>
-                      <textarea className="min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm" />
+                      <textarea className="min-h-30 w-full rounded-md border border-input bg-background px-3 py-2 text-sm" />
                     </div>
                     <button className="w-full rounded-md bg-primary px-8 py-2 font-medium text-primary-foreground transition-colors hover:bg-primary/90">
                       إرسال الرسالة
