@@ -44,7 +44,6 @@ export async function createCat(data, user) {
   return Cat.create({
     ...data,
     owner: user.id,
-    city: user.city,
   });
 }
 

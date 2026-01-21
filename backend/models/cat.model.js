@@ -1,3 +1,4 @@
+import { egyptGovernorates } from "@/lib/egyptGovernorates";
 import mongoose from "mongoose";
 
 const catSchema = new mongoose.Schema(
@@ -10,19 +11,20 @@ const catSchema = new mongoose.Schema(
 
     city: {
       type: String,
+      enum: egyptGovernorates,
       required: true,
     },
 
     age: {
       type: Number,
       required: true,
-      min: 0,
+      min: 1,
     },
 
     ageUnit: {
       type: String,
-      enum: ["days", "months", "years"],
-      default: "months",
+      enum: ["أيام", "شهور", "سنين"],
+      required: true,
     },
 
     gender: {
@@ -33,19 +35,24 @@ const catSchema = new mongoose.Schema(
 
     vaccinated: {
       type: Boolean,
-      default: false,
+      required: true,
     },
 
-    images: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
+    images: {
+      type: [String],
+      required: true,
+      validate: [(arr) => arr.length <= 3, "Max 3 images allowed"],
+    },
+
+    vaccinationImages: {
+      type: [String],
+      validate: [(arr) => arr.length <= 2, "Max 2 vaccination images allowed"],
+    },
 
     description: {
       type: String,
       trim: true,
+      default: "",
     },
 
     status: {

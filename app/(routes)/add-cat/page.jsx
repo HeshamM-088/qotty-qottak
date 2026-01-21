@@ -12,18 +12,25 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Upload, Info, CheckCircle2, X } from "lucide-react";
+import { Upload, X } from "lucide-react";
+import CitySelect from "./_components/CitySelect";
+
+const MAX_CAT_IMAGES = 3;
+const MAX_VACCINE_IMAGES = 2;
 
 const AddCatPage = () => {
   const [formData, setFormData] = useState({
     name: "",
     city: "",
     age: "",
+    ageUnit: "",
     gender: "",
     description: "",
+    vaccinated: null,
   });
 
   const [images, setImages] = useState([]);
+  const [vaccineImages, setVaccineImages] = useState([]);
 
   const handleChange = (key, value) => {
     setFormData((prev) => ({
@@ -34,22 +41,37 @@ const AddCatPage = () => {
 
   const handleImagesUpload = (e) => {
     const files = Array.from(e.target.files);
-    if (images.length + files.length > 5) return;
+    if (images.length >= MAX_CAT_IMAGES) return;
 
-    setImages((prev) => [...prev, ...files]);
+    const remaining = MAX_CAT_IMAGES - images.length;
+    setImages((prev) => [...prev, ...files.slice(0, remaining)]);
   };
 
   const removeImage = (index) => {
     setImages((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const handleVaccineUpload = (e) => {
+    const files = Array.from(e.target.files);
+    if (vaccineImages.length >= MAX_VACCINE_IMAGES) return;
+
+    const remaining = MAX_VACCINE_IMAGES - vaccineImages.length;
+    setVaccineImages((prev) => [...prev, ...files.slice(0, remaining)]);
+  };
+
+  const removeVaccineImage = (index) => {
+    setVaccineImages((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const isFormValid =
     formData.name &&
     formData.city &&
     formData.age &&
+    formData.ageUnit &&
     formData.gender &&
-    formData.description &&
-    images.length > 0;
+    formData.vaccinated !== null &&
+    images.length > 0 &&
+    (formData.vaccinated === false || vaccineImages.length > 0);
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -60,12 +82,12 @@ const AddCatPage = () => {
               عرض قطة للتبني في مصر
             </h1>
             <p className="text-muted-foreground">
-              ساعد قطتك في العثور على منزل آمن وعائلة محبة من خلال منصة تبني
-              القطط في مصر.
+              ساعد قطتك في العثور على منزل آمن وعائلة محبة.
             </p>
           </div>
 
           <div className="grid gap-8">
+            {/* ===== معلومات القطة ===== */}
             <Card className="border-none shadow-sm">
               <CardHeader>
                 <CardTitle className="font-serif">معلومات القطة</CardTitle>
@@ -76,7 +98,6 @@ const AddCatPage = () => {
                   <div className="space-y-2">
                     <Label>اسم القطة</Label>
                     <Input
-                      placeholder="مثال: لونا"
                       value={formData.name}
                       onChange={(e) => handleChange("name", e.target.value)}
                     />
@@ -84,18 +105,10 @@ const AddCatPage = () => {
 
                   <div className="space-y-2">
                     <Label>المدينة</Label>
-                    <Select
-                      onValueChange={(value) => handleChange("city", value)}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="اختر المدينة" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="القاهرة">القاهرة</SelectItem>
-                        <SelectItem value="الإسكندرية">الإسكندرية</SelectItem>
-                        <SelectItem value="الجيزة">الجيزة</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <CitySelect
+                      value={formData.city}
+                      onChange={(val) => handleChange("city", val)}
+                    />
                   </div>
                 </div>
 
@@ -103,74 +116,137 @@ const AddCatPage = () => {
                   <div className="space-y-2">
                     <Label>العمر</Label>
                     <Input
-                      placeholder="مثال: 6 أشهر"
+                      type="number"
+                      min="1"
+                      step="1"
                       value={formData.age}
                       onChange={(e) => handleChange("age", e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "-" || e.key === "e") e.preventDefault();
+                      }}
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label>النوع</Label>
-                    <Select
-                      onValueChange={(value) => handleChange("gender", value)}
-                    >
+                    <Label>وحدة العمر</Label>
+                    <Select onValueChange={(v) => handleChange("ageUnit", v)}>
                       <SelectTrigger>
-                        <SelectValue placeholder="اختر النوع" />
+                        <SelectValue placeholder="اختر الوحدة" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="male">ذكر</SelectItem>
-                        <SelectItem value="female">أنثى</SelectItem>
+                        <SelectItem value="أيام">أيام</SelectItem>
+                        <SelectItem value="شهور">شهور</SelectItem>
+                        <SelectItem value="سنين">سنين</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <Label>تحميل صور القطة (حد أقصى 5)</Label>
+                <div className="space-y-2">
+                  <Label>النوع</Label>
+                  <Select onValueChange={(v) => handleChange("gender", v)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="اختر النوع" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="ذكر">ذكر</SelectItem>
+                      <SelectItem value="أنثى">أنثى</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-                  <label className="flex h-40 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed transition hover:border-primary hover:bg-primary/5">
-                    <Upload className="mb-2 h-8 w-8 text-muted-foreground" />
-                    <p className="text-sm text-muted-foreground">
-                      اضغط لاختيار الصور
-                    </p>
-                    <input
-                      type="file"
-                      multiple
-                      accept="image/*"
-                      className="hidden"
-                      onChange={handleImagesUpload}
-                    />
-                  </label>
+                <div className="space-y-2">
+                  <Label>حالة التطعيم</Label>
+                  <Select
+                    onValueChange={(v) =>
+                      handleChange("vaccinated", v === "true")
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="هل القطة متطعمة؟" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="true">متطعمة</SelectItem>
+                      <SelectItem value="false">غير متطعمة</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-                  {images.length > 0 && (
+                {/* ===== Vaccine Images ===== */}
+                {formData.vaccinated === true && (
+                  <div className="space-y-3">
+                    <Label>صور التطعيمات (حد أقصى 2 صور)</Label>
+
+                    <label className="flex h-32 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed">
+                      <Upload className="mb-2 h-6 w-6 text-muted-foreground" />
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        className="hidden"
+                        disabled={vaccineImages.length >= MAX_VACCINE_IMAGES}
+                        onChange={handleVaccineUpload}
+                      />
+                    </label>
+
                     <div className="grid grid-cols-3 gap-3">
-                      {images.map((img, index) => (
-                        <div
-                          key={index}
-                          className="relative overflow-hidden rounded-lg"
-                        >
+                      {vaccineImages.map((img, i) => (
+                        <div key={i} className="relative">
                           <img
                             src={URL.createObjectURL(img)}
-                            alt="cat"
-                            className="h-24 w-full object-cover"
+                            className="h-24 w-full rounded-lg object-cover"
                           />
                           <button
-                            onClick={() => removeImage(index)}
-                            className="absolute right-1 top-1 rounded-full bg-black/60 p-1 text-white"
+                            onClick={() => removeVaccineImage(i)}
+                            className="absolute right-1 top-1 bg-black/60 p-1 rounded-full text-white"
                           >
                             <X size={14} />
                           </button>
                         </div>
                       ))}
                     </div>
-                  )}
+                  </div>
+                )}
+
+                {/* ===== Cat Images ===== */}
+                <div className="space-y-3">
+                  <Label>صور القطة (حد أقصى 3 صور)</Label>
+
+                  <label className="flex h-40 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed">
+                    <Upload className="mb-2 h-8 w-8 text-muted-foreground" />
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      className="hidden"
+                      disabled={images.length >= MAX_CAT_IMAGES}
+                      onChange={handleImagesUpload}
+                    />
+                  </label>
+
+                  <div className="grid grid-cols-3 gap-3">
+                    {images.map((img, i) => (
+                      <div key={i} className="relative">
+                        <img
+                          src={URL.createObjectURL(img)}
+                          className="h-24 w-full rounded-lg object-cover"
+                        />
+                        <button
+                          onClick={() => removeImage(i)}
+                          className="absolute right-1 top-1 bg-black/60 p-1 rounded-full text-white"
+                        >
+                          <X size={14} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label>وصف القطة وحالتها الصحية</Label>
+                  <Label>وصف القطة</Label>
                   <Textarea
+                    placeholder="وصف عام لقطتك"
                     rows={5}
-                    placeholder="احكِ لنا عن شخصية القطة وحالتها الصحية"
                     value={formData.description}
                     onChange={(e) =>
                       handleChange("description", e.target.value)
@@ -180,29 +256,7 @@ const AddCatPage = () => {
               </CardContent>
             </Card>
 
-            <Card className="border-none shadow-sm">
-              <CardHeader>
-                <CardTitle className="font-serif">قواعد المنصة</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex gap-3 rounded-lg bg-primary/5 p-4 text-sm text-primary">
-                  <CheckCircle2 className="h-5 w-5" />
-                  يمنع بيع القطط أو طلب مقابل مادي للتبني.
-                </div>
-
-                <div className="flex gap-3 rounded-lg bg-muted p-4 text-sm text-chart-3">
-                  <Info className="h-5 w-5" />
-                  اختر متبنيًا موثوقًا لضمان حياة أفضل لقطتك. , اطلع على وثيقه
-                  التبنى لضمان تطابق بيانات الشخص
-                </div>
-              </CardContent>
-            </Card>
-
-            <Button
-              size="lg"
-              className="w-full cursor-pointer"
-              disabled={!isFormValid}
-            >
+            <Button size="lg" className="w-full" disabled={!isFormValid}>
               {isFormValid ? "نشر إعلان التبني" : "أكمل البيانات أولًا"}
             </Button>
           </div>
