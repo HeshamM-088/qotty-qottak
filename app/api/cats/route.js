@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import connectDB from "@/lib/connectDB";
-import User from "@/backend/models/user.model";
 import { createCat, getAllCats } from "@/backend/services/cat.service";
 
 export async function POST(req) {
@@ -80,14 +79,12 @@ export async function POST(req) {
       images: uploadedCatImages,
       vaccinationImages: vaccinated ? uploadedVaccinationImages : [],
       description,
+      status: "pending",
     },
     session.user,
   );
 
-  return NextResponse.json(
-    { message: "Cat Created Success", data: cat },
-    { status: 201 },
-  );
+  return NextResponse.json({ message: "Cat Created Success" }, { status: 201 });
 }
 
 export async function GET() {

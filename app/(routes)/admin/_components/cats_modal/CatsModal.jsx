@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const CatsModal = ({ isOpen, onClose, onSave, initialData }) => {
+const CatsModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     name: "",
     type: "",
@@ -13,23 +13,8 @@ const CatsModal = ({ isOpen, onClose, onSave, initialData }) => {
     image: "🐱",
   });
 
-  useEffect(() => {
-    if (initialData) {
-      setFormData(initialData);
-    } else {
-      setFormData({
-        name: "",
-        type: "",
-        age: "",
-        status: "متطعم",
-        image: "🐱",
-      });
-    }
-  }, [initialData, isOpen]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(formData);
   };
 
   if (!isOpen) return null;
@@ -40,7 +25,7 @@ const CatsModal = ({ isOpen, onClose, onSave, initialData }) => {
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-border">
           <h2 className="text-xl font-bold text-foreground">
-            {initialData ? "تعديل القطة" : "إضافة قطة جديدة"}
+            {"إضافة قطة جديدة"}
           </h2>
           <button onClick={onClose} className="p-1 hover:bg-muted rounded-lg">
             <X className="w-5 h-5" />
@@ -119,7 +104,7 @@ const CatsModal = ({ isOpen, onClose, onSave, initialData }) => {
               type="submit"
               className="bg-primary hover:bg-primary/90 text-primary-foreground"
             >
-              {initialData ? "تحديث" : "إضافة"}
+              {"إضافة"}
             </Button>
           </div>
         </form>

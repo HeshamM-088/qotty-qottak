@@ -11,10 +11,7 @@ import User from "@/backend/models/user.model";
 export async function GET(req, { params }) {
   try {
     const cat = await getCatById(params.id);
-    return NextResponse.json(
-      { message: "Cat Found Success", data: cat },
-      { status: 200 },
-    );
+    return cat;
   } catch (err) {
     return NextResponse.json(
       { message: err.message, data: null },

@@ -15,9 +15,9 @@ const ProfileLayout = async ({ children }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow p-4">
-        <h1 className="text-2xl font-bold">صفحتي الشخصية</h1>
+    <div className="min-h-screen bg-background">
+      <header className="bg-chart-2 shadow p-4">
+        <h1 className="text-2xl font-bold text-white">صفحتي الشخصية</h1>
       </header>
       <main className="p-6">{children}</main>
     </div>

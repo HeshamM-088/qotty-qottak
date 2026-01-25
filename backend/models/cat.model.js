@@ -57,10 +57,19 @@ const catSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["available", "adopted"],
-      default: "available",
+      enum: ["pending", "rejected", "available", "adopted"],
+      default: "pending",
       index: true,
     },
+
+    reviewedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+
+    reviewedAt: Date,
+
+    rejectionReason: String,
 
     owner: {
       type: mongoose.Schema.Types.ObjectId,
@@ -71,6 +80,7 @@ const catSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    versionKey: false,
   },
 );
 

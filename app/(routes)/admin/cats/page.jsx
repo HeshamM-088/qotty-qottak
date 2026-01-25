@@ -1,3 +1,4 @@
+import { getAllCatsAdmin } from "@/backend/services/cat.service";
 import CatsTable from "../_components/cats_table/CatsTable";
 
 export const metadata = {
@@ -44,7 +45,17 @@ export const metadata = {
   },
 };
 
-const CatsPage = () => {
+const getCats = async () => {
+  const res = await getAllCatsAdmin();
+
+  const cats = await res.json();
+
+  return cats;
+};
+
+const CatsPage = async () => {
+  const { data } = await getCats();
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
@@ -56,7 +67,7 @@ const CatsPage = () => {
         </div>
       </div>
 
-      <CatsTable />
+      <CatsTable allCats={data} />
     </div>
   );
 };

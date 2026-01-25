@@ -14,6 +14,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Upload, X } from "lucide-react";
 import CitySelect from "./_components/CitySelect";
+import { handleSubmit } from "./_components/addNewCat";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import {
+  handleChange,
+  handleImagesUpload,
+  handleVaccineUpload,
+  removeImage,
+  removeVaccineImage,
+} from "./_components/addCatOperations";
 
 const MAX_CAT_IMAGES = 3;
 const MAX_VACCINE_IMAGES = 2;
@@ -32,35 +42,25 @@ const AddCatPage = () => {
   const [images, setImages] = useState([]);
   const [vaccineImages, setVaccineImages] = useState([]);
 
-  const handleChange = (key, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
-  };
+  const router = useRouter();
 
-  const handleImagesUpload = (e) => {
-    const files = Array.from(e.target.files);
-    if (images.length >= MAX_CAT_IMAGES) return;
+  const handleSubmitAddNewCatRequest = async () => {
+    const toastId = toast.loading("جاري إرسال طلبك...");
+    try {
+      await handleSubmit({ formData, images, vaccineImages });
 
-    const remaining = MAX_CAT_IMAGES - images.length;
-    setImages((prev) => [...prev, ...files.slice(0, remaining)]);
-  };
-
-  const removeImage = (index) => {
-    setImages((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const handleVaccineUpload = (e) => {
-    const files = Array.from(e.target.files);
-    if (vaccineImages.length >= MAX_VACCINE_IMAGES) return;
-
-    const remaining = MAX_VACCINE_IMAGES - vaccineImages.length;
-    setVaccineImages((prev) => [...prev, ...files.slice(0, remaining)]);
-  };
-
-  const removeVaccineImage = (index) => {
-    setVaccineImages((prev) => prev.filter((_, i) => i !== index));
+      toast.success(
+        "تم إرسال طلبك بنجاح! القطة قيد الانتظار لموافقة الإدارة خلال 48 ساعة.",
+        { id: toastId, duration: Infinity, icon: "🐾" },
+      );
+      router.push("/");
+    } catch (err) {
+      toast.error(err.message, {
+        id: toastId,
+        duration: Infinity,
+        icon: "🐾",
+      });
+    }
   };
 
   const isFormValid =
@@ -99,7 +99,9 @@ const AddCatPage = () => {
                     <Label>اسم القطة</Label>
                     <Input
                       value={formData.name}
-                      onChange={(e) => handleChange("name", e.target.value)}
+                      onChange={(e) =>
+                        handleChange("name", e.target.value, setFormData)
+                      }
                     />
                   </div>
 
@@ -107,7 +109,7 @@ const AddCatPage = () => {
                     <Label>المدينة</Label>
                     <CitySelect
                       value={formData.city}
-                      onChange={(val) => handleChange("city", val)}
+                      onChange={(val) => handleChange("city", val, setFormData)}
                     />
                   </div>
                 </div>
@@ -120,7 +122,9 @@ const AddCatPage = () => {
                       min="1"
                       step="1"
                       value={formData.age}
-                      onChange={(e) => handleChange("age", e.target.value)}
+                      onChange={(e) =>
+                        handleChange("age", e.target.value, setFormData)
+                      }
                       onKeyDown={(e) => {
                         if (e.key === "-" || e.key === "e") e.preventDefault();
                       }}
@@ -129,7 +133,11 @@ const AddCatPage = () => {
 
                   <div className="space-y-2">
                     <Label>وحدة العمر</Label>
-                    <Select onValueChange={(v) => handleChange("ageUnit", v)}>
+                    <Select
+                      onValueChange={(v) =>
+                        handleChange("ageUnit", v, setFormData)
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="اختر الوحدة" />
                       </SelectTrigger>
@@ -144,7 +152,11 @@ const AddCatPage = () => {
 
                 <div className="space-y-2">
                   <Label>النوع</Label>
-                  <Select onValueChange={(v) => handleChange("gender", v)}>
+                  <Select
+                    onValueChange={(v) =>
+                      handleChange("gender", v, setFormData)
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="اختر النوع" />
                     </SelectTrigger>
@@ -159,7 +171,7 @@ const AddCatPage = () => {
                   <Label>حالة التطعيم</Label>
                   <Select
                     onValueChange={(v) =>
-                      handleChange("vaccinated", v === "true")
+                      handleChange("vaccinated", v === "true", setFormData)
                     }
                   >
                     <SelectTrigger>
@@ -185,7 +197,14 @@ const AddCatPage = () => {
                         accept="image/*"
                         className="hidden"
                         disabled={vaccineImages.length >= MAX_VACCINE_IMAGES}
-                        onChange={handleVaccineUpload}
+                        onChange={(e) =>
+                          handleVaccineUpload(
+                            e,
+                            vaccineImages,
+                            MAX_VACCINE_IMAGES,
+                            setVaccineImages,
+                          )
+                        }
                       />
                     </label>
 
@@ -197,7 +216,9 @@ const AddCatPage = () => {
                             className="h-24 w-full rounded-lg object-cover"
                           />
                           <button
-                            onClick={() => removeVaccineImage(i)}
+                            onClick={(i) =>
+                              removeVaccineImage(i, setVaccineImages)
+                            }
                             className="absolute right-1 top-1 bg-black/60 p-1 rounded-full text-white"
                           >
                             <X size={14} />
@@ -220,7 +241,9 @@ const AddCatPage = () => {
                       accept="image/*"
                       className="hidden"
                       disabled={images.length >= MAX_CAT_IMAGES}
-                      onChange={handleImagesUpload}
+                      onChange={(e) =>
+                        handleImagesUpload(e, images, MAX_CAT_IMAGES, setImages)
+                      }
                     />
                   </label>
 
@@ -232,7 +255,7 @@ const AddCatPage = () => {
                           className="h-24 w-full rounded-lg object-cover"
                         />
                         <button
-                          onClick={() => removeImage(i)}
+                          onClick={(i) => removeImage(i, setImages)}
                           className="absolute right-1 top-1 bg-black/60 p-1 rounded-full text-white"
                         >
                           <X size={14} />
@@ -249,14 +272,19 @@ const AddCatPage = () => {
                     rows={5}
                     value={formData.description}
                     onChange={(e) =>
-                      handleChange("description", e.target.value)
+                      handleChange("description", e.target.value, setFormData)
                     }
                   />
                 </div>
               </CardContent>
             </Card>
 
-            <Button size="lg" className="w-full" disabled={!isFormValid}>
+            <Button
+              size="lg"
+              onClick={handleSubmitAddNewCatRequest}
+              className="w-full"
+              disabled={!isFormValid}
+            >
               {isFormValid ? "نشر إعلان التبني" : "أكمل البيانات أولًا"}
             </Button>
           </div>
