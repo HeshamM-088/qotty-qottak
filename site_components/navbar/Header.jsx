@@ -20,10 +20,10 @@ const Header = () => {
           <Link href="/" className="flex items-center gap-2">
             <div className="flex items-center gap-2">
               <div className="w-10 h-10 bg-linear-to-br from-primary to-accent rounded-lg flex items-center justify-center">
-                <PawPrint className="w-6 h-6 text-foreground" />
+                <PawPrint className="lg:w-6 lg:h-6 text-foreground" />
               </div>
               <div>
-                <h1 className="font-bold text-lg text-sidebar-foreground">
+                <h1 className="font-bold lg:text-lg text-sidebar-foreground">
                   قطتي-قطتك
                 </h1>
                 <p className="text-xs text-sidebar-foreground/60">

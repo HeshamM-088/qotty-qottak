@@ -17,14 +17,18 @@ const ProfilePage = async () => {
   }));
 
   return (
-    <div className="max-w-6xl mx-auto space-y-12">
+    <div className="max-w-6xl mx-auto space-y-12 ">
       <section>
-        <h2 className="text-2xl font-bold mb-4">قططي</h2>
+        <h2 className="text-2xl font-bold mb-4 underline underline-offset-8">
+          طلبات القطط
+        </h2>
         <CatsList initialCats={safeCats} />
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold mb-4">طلبات التبني الخاصة بي</h2>
+        <h2 className="text-2xl font-bold mb-4 underline underline-offset-8">
+          طلبات التبني
+        </h2>
         {/* <RequestsList requests={requests} /> */}
       </section>
     </div>
