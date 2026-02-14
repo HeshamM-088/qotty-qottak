@@ -4,6 +4,7 @@ import Header from "@/site_components/navbar/Header";
 import Footer from "@/site_components/Footer";
 import { Toaster } from "react-hot-toast";
 import ClientProviders from "./ClientProviders";
+import Chatbot from "@/site_components/chatbot/Chatbot";
 
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
@@ -52,6 +53,8 @@ export default function RootLayout({ children }) {
         <ClientProviders>
           <Header />
           {children}
+
+          <Chatbot />
           <Toaster position="bottom-left" />
           <Footer />
         </ClientProviders>
