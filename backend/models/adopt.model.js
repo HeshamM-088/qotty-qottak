@@ -9,11 +9,24 @@ const adoptionRequestSchema = new mongoose.Schema(
       index: true,
     },
 
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true,
+    },
+
     cat: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Cat",
       required: true,
       index: true,
+    },
+
+    message: {
+      type: String,
+      trim: true,
+      maxlength: 1000,
     },
 
     status: {

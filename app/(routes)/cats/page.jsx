@@ -1,3 +1,4 @@
+import { getAllCats } from "@/backend/services/cat.service";
 import CatsFilters from "./_catsFilters/CatsFilters";
 import CatsGrid from "./_catsGrid/CatsGrid";
 
@@ -34,81 +35,15 @@ export const metadata = {
   author: "Hisham Khalil",
 };
 
-const CatsPage = () => {
-  const cats = [
-    {
-      id: 1,
-      name: "لونا",
-      city: "القاهرة",
-      age: "6 أشهر",
-      gender: "أنثى",
-      vaccinated: true,
-      image: "/temp_static/cats/1 (1).jpg",
-    },
-    {
-      id: 2,
-      name: "مشمش",
-      city: "الإسكندرية",
-      age: "8 أشهر",
-      gender: "ذكر",
-      vaccinated: true,
-      image: "/temp_static/cats/1 (2).jpg",
-    },
-    {
-      id: 3,
-      name: "سنووايت",
-      city: "الجيزة",
-      age: "3 أشهر",
-      gender: "أنثى",
-      vaccinated: false,
-      image: "/temp_static/cats/1 (3).jpg",
-    },
-    {
-      id: 4,
-      name: "فيلو",
-      city: "القاهرة",
-      age: "8 أشهر",
-      gender: "ذكر",
-      vaccinated: true,
-      image: "/temp_static/cats/1 (4).jpg",
-    },
-    {
-      id: 5,
-      name: "زيتونة",
-      city: "المنصورة",
-      age: "24 شهرا",
-      gender: "أنثى",
-      vaccinated: true,
-      image: "/temp_static/cats/1 (5).jpg",
-    },
-    {
-      id: 6,
-      name: "بندق",
-      city: "طنطا",
-      age: "4 أشهر",
-      gender: "ذكر",
-      vaccinated: false,
-      image: "/temp_static/cats/1 (6).jpg",
-    },
-    {
-      id: 7,
-      name: "بيلا",
-      city: "القاهرة",
-      age: "4 أشهر",
-      gender: "أنثى",
-      vaccinated: true,
-      image: "/temp_static/cats/1 (7).jpg",
-    },
-    {
-      id: 8,
-      name: "سمسم",
-      city: "الإسكندرية",
-      age: "18 شهر",
-      gender: "ذكر",
-      vaccinated: true,
-      image: "/temp_static/cats/1 (8).jpg",
-    },
-  ];
+const getCats = async () => {
+  const request = await getAllCats();
+  const res = await request.json();
+
+  return res;
+};
+
+const CatsPage = async () => {
+  const { data: cats } = await getCats();
 
   return (
     <div className="flex min-h-screen flex-col">

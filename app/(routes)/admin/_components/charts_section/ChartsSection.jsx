@@ -41,7 +41,7 @@ const adoptionData = [
 
 const COLORS = ["#16C47F", "#FCCD2A", "#F93827"];
 
-const ChartsSection = () => {
+const ChartsSection = ({ cats, requests }) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <div className="bg-card border border-border rounded-lg p-6">

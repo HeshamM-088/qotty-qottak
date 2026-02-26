@@ -6,6 +6,7 @@ import {
   isOwnerOrAdmin,
   isAdmin,
 } from "../utils/permissions";
+import { NextResponse } from "next/server";
 
 // owner: get my requests
 export async function getMyRequests(userId) {
@@ -13,7 +14,7 @@ export async function getMyRequests(userId) {
 
   await connectDB();
 
-  return AdoptionRequest.find({ user: userId })
+  return await AdoptionRequest.find({ user: userId })
     .populate("cat")
     .sort({ createdAt: -1 })
     .lean();
@@ -25,10 +26,15 @@ export async function getAllRequests(user) {
 
   await connectDB();
 
-  return AdoptionRequest.find()
+  const adoptRequests = await AdoptionRequest.find()
     .populate("cat user")
     .sort({ createdAt: -1 })
     .lean();
+
+  return NextResponse.json(
+    { message: "Requests fetched successfully", data: adoptRequests },
+    { status: 200 },
+  );
 }
 
 // admin: get single request

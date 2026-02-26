@@ -1,5 +1,12 @@
+import { getServerSession } from "next-auth";
 import ChartsSection from "./_components/charts_section/ChartsSection";
-import StatsCard from "./_components/stats_cards/StatsCard";
+import CatsStatsCard from "./_components/stats_cards/components/CatsStatsCard";
+import RequestsStatsCard from "./_components/stats_cards/components/RequestsStatsCard";
+import UsersStatsCard from "./_components/stats_cards/components/UsersStatsCard";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getAllRequests } from "@/backend/services/adopt.service";
+import { getAllCatsAdmin } from "@/backend/services/cat.service";
+import { getAllUsersAdmin } from "@/backend/services/user.service";
 
 export const metadata = {
   title: "لوحة تحكم الأدمن | منصة قطتى-قطتك",
@@ -45,7 +52,41 @@ export const metadata = {
   },
 };
 
-const DashboardPage = () => {
+const getAdoptRequestsInfo = async () => {
+  const { user } = await getServerSession(authOptions);
+
+  const req = await getAllRequests(user);
+
+  const res = await req.json();
+
+  return res;
+};
+
+const getCatsInfo = async () => {
+  const req = await getAllCatsAdmin();
+
+  const cats = req.json();
+
+  return cats;
+};
+
+const getUsersInfo = async () => {
+  const { user } = await getServerSession(authOptions);
+
+  const req = await getAllUsersAdmin(user);
+
+  const users = req.json();
+
+  return users;
+};
+
+const DashboardPage = async () => {
+  const [requests, cats, users] = await Promise.allSettled([
+    getAdoptRequestsInfo(),
+    getCatsInfo(),
+    getUsersInfo(),
+  ]);
+
   return (
     <div className="p-6 space-y-6">
       <div>
@@ -57,8 +98,13 @@ const DashboardPage = () => {
         </p>
       </div>
 
-      <StatsCard />
-      <ChartsSection />
+      <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-5">
+        <CatsStatsCard cats={cats?.value.data} />
+        <UsersStatsCard users={users?.value.data} />
+        <RequestsStatsCard requests={requests?.value.data} />
+      </div>
+
+      <ChartsSection cats={cats?.value.data} requests={requests?.value.data} />
     </div>
   );
 };

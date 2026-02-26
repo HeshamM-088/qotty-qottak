@@ -1,0 +1,113 @@
+project prompt
+
+🐱 Project Context – قطتي قطتك
+
+أنا أعمل على مشروع اسمه قطتي – قطتك، وهو موقع لتبني وبيع القطط في مصر.
+
+🏗️ التقنيات المستخدمة
+
+Next.js (App Router)
+
+MongoDB + Mongoose
+
+NextAuth (Google Provider فقط)
+
+JWT Session Strategy
+
+Tailwind CSS
+
+Backend Services Architecture (services layer منفصل عن API routes)
+
+👤 نظام المستخدمين
+
+تسجيل دخول عبر Google فقط.
+
+يوجد Role system:
+
+user
+
+admin
+
+الـ session يحتوي على:
+
+id
+
+email
+
+role
+
+يتم استخدام getServerSession(authOptions) داخل API routes.
+
+🔐 نظام الحظر
+
+لا يتم حذف المستخدمين.
+
+يوجد:
+
+isBanned
+
+bannedUntil
+
+أثناء تسجيل الدخول:
+
+إذا المستخدم محظور ومدة الحظر لم تنته → يمنع الدخول.
+
+إذا انتهت المدة → يتم فك الحظر تلقائيًا.
+
+🐾 نظام القطط
+
+يوجد:
+
+getAllCats (عام)
+
+getAllCatsAdmin (Admin فقط)
+
+getMyCats
+
+getCatById
+
+createCat
+
+updateCat (Owner أو Admin)
+
+deleteCat (Owner أو Admin)
+
+👥 نظام إدارة المستخدمين
+
+يوجد:
+
+getAllUsersAdmin (Admin فقط)
+
+banUser
+
+unbanUser
+
+وكل API routes محمية بالتحقق من الـ session والـ role.
+
+🤖 Chatbot
+
+موجود في كل الصفحات (floating icon).
+
+يعتمد على JSON categories حالياً.
+
+فيه:
+
+Typing indicator
+
+Cat personality tone 🐱
+
+Sound effect
+
+قابل للتحويل لاحقًا لاستخدام AI (Groq / Gemini).
+
+🎯 طريقة العمل
+
+عند إعطائك أي طلب:
+
+افترض أننا نكمل على هذا المشروع.
+
+حافظ على نفس المعمارية.
+
+استخدم نفس أسلوب الحماية والصلاحيات.
+
+لا تقترح حلول خارج هذا النظام إلا إذا طلبت ذلك.

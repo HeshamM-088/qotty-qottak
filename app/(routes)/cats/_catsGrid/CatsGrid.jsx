@@ -32,8 +32,8 @@ const CatsGrid = ({ cats }) => {
         searchOptions.vaccinated === ""
           ? true
           : searchOptions.vaccinated === "true"
-          ? cat.vaccinated
-          : !cat.vaccinated;
+            ? cat.vaccinated
+            : !cat.vaccinated;
       return matchAge && matchCity && matchVaccinated;
     });
   }, [cats, searchOptions]);
@@ -42,8 +42,10 @@ const CatsGrid = ({ cats }) => {
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const currentCats = filteredCats.slice(
     startIndex,
-    startIndex + ITEMS_PER_PAGE
+    startIndex + ITEMS_PER_PAGE,
   );
+
+  console.log(currentCats);
 
   useEffect(() => {
     const params = new URLSearchParams();
@@ -73,10 +75,10 @@ const CatsGrid = ({ cats }) => {
           )}
 
           {currentCats.map((cat) => (
-            <Card key={cat.id} className="overflow-hidden shadow-sm">
+            <Card key={cat._id} className="overflow-hidden shadow-sm">
               <div className="relative">
                 <img
-                  src={cat.image}
+                  src={cat.images[0]}
                   alt={cat.name}
                   className="h-64 w-full object-cover"
                 />
@@ -97,7 +99,7 @@ const CatsGrid = ({ cats }) => {
                   </span>
                   <span>{cat.age}</span>
                 </div>
-                <Link href={`/cats/${cat.id}`}>
+                <Link href={`/cats/${cat._id}`}>
                   <Button
                     variant="outline"
                     className="w-full dark:text-accent-foreground bg-transparent cursor-pointer"

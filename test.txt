@@ -1,0 +1,19 @@
+// const getCatsInfo = async () => {
+//   const req = await getAllCatsAdmin();
+
+//   console.log(req);
+// };
+
+// const getUsersInfo = async () => {
+//   const req = await getAllCatsAdmin();
+
+//   console.log(req);
+// };
+
+// const getAdoptRequestsInfo = async () => {
+//   const session = await getServerSession(authOptions);
+
+//   const req = await getAllRequests(session);
+
+//   console.log(req);
+// };

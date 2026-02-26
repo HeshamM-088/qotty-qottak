@@ -12,6 +12,7 @@ import {
   Share2,
 } from "lucide-react";
 import Link from "next/link";
+import AdoptButton from "./AdoptButton";
 
 export async function generateMetadata({ params }) {
   const { catId } = await params;
@@ -223,25 +224,11 @@ const CatDetailsPage = async () => {
                   </div>
 
                   <div className="space-y-3">
-                    <a
-                      href={`https://wa.me/${cat.owner.phone}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className=""
-                    >
-                      <Button className="w-full cursor-pointer gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white py-6 text-lg">
-                        <MessageCircle className="h-6 w-6" />
-                        تواصل عبر واتساب
-                      </Button>
-                    </a>
-                    <Link href="/request">
-                      <Button
-                        variant="outline"
-                        className="w-full py-6 bg-transparent"
-                      >
-                        تقديم طلب تبني رسمي
-                      </Button>
-                    </Link>
+                    {/* <Button  className="w-full text-black hover:text-white dark:text-white transition duration-300 py-6 cursor-pointer bg-transparent">
+                      تقديم طلب تبني رسمي
+                    </Button> */}
+
+                    {/* <AdoptButton catId={} ownerId={}/> */}
                   </div>
 
                   <div className="mt-6 flex items-start gap-2 rounded-lg bg-yellow-50 p-3 text-xs text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-200">

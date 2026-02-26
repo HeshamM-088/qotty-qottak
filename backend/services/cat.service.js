@@ -30,11 +30,13 @@ export async function getAllCatsAdmin() {
 // public
 export async function getAllCats() {
   await connectDB();
-  const cats = Cat.find({ status: "available" }).sort({ createdAt: -1 }).lean();
+  const cats = await Cat.find({ status: "available" })
+    .sort({ createdAt: -1 })
+    .lean();
 
   if (!cats) throw new Error("Cats not found");
 
-  return cats;
+  return NextResponse.json({ message: "Success", data: cats }, { status: 200 });
 }
 
 // public

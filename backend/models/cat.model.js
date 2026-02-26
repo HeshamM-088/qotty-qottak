@@ -57,7 +57,7 @@ const catSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["pending", "rejected", "available", "adopted"],
+      enum: ["pending", "rejected", "available", "adopted", "reserved"],
       default: "pending",
       index: true,
     },

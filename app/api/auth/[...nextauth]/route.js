@@ -36,9 +36,24 @@ export const authOptions = {
         });
 
         user.id = newUser._id;
+        user.role = newUser.role;
       } else {
         user.id = existingUser._id;
         user.role = existingUser.role;
+
+        if (existingUser.isBanned) {
+          const now = new Date();
+          if (existingUser.bannedUntil && existingUser.bannedUntil > now) {
+            throw new Error(
+              `⚠️ أنت محظور مؤقتًا حتى ${existingUser.bannedUntil.toLocaleString()}`,
+            );
+          } else {
+            existingUser.isBanned = false;
+            existingUser.bannedUntil = null;
+            existingUser.banReason = null;
+            await existingUser.save();
+          }
+        }
       }
 
       return true;
