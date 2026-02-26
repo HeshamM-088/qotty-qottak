@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { unbanUser } from "@/backend/services/users.service";
+import { unbanUser } from "@/backend/services/user.service";
 import { authOptions } from "@/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 
